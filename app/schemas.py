@@ -6,37 +6,25 @@ from pydantic.generics import GenericModel
 T = TypeVar("T")
 
 
-class ArticleSchema(BaseModel):
+class LenguajeSchema(BaseModel):
 
-    id: Optional[int]
-    firstName: Optional[str]
-
-
-class CommentSchema(ArticleSchema):
-
-    id: Optional[int]
-    article_id: Optional[int]
+    # id: Optional[int]
+    skill: Optional[str]
+    time: Optional[int]
 
     class Config:
         orm_mode = True
 
 
-class LenguajeSchema(BaseModel):
-
-    id: Optional[int]
-    relation: Optional[str]
-    lenguaje: Optional[str]
-    time: Optional[int]
-
-
 class UsuarioSchema(BaseModel):
-    id: Optional[int] = None
+    # id: Optional[int] = None
     firstName: Optional[str] = None
     lastName: Optional[str] = None
     cel: Optional[int] = None
     email: Optional[str] = None
     yersExp: Optional[int] = None
-    skills: List[LenguajeSchema] = []
+    lenguajes: List[LenguajeSchema] = []
+    matchProfile: List[LenguajeSchema] = []
 
     class Config:
         orm_mode = True
@@ -52,14 +40,14 @@ class EmpresasSchema(BaseModel):
 
 class VacantesSchema(BaseModel):
 
-    id: Optional[int] = None
-    PositionName: Optional[str] = None
-    CompanyName: Optional[str] = None
-    Salary: Optional[int] = None
-    Currency: Optional[str] = None
-    VacancyLink: Optional[str] = None
-    skills: List[LenguajeSchema] = []
-    company: List[EmpresasSchema] = []
+    # id: Optional[int] = None
+    positionName: Optional[str] = None
+    companyName: Optional[str] = None
+    salary: Optional[int] = None
+    currency: Optional[str] = None
+    vacancyLink: Optional[str] = None
+    lenguajes: List[LenguajeSchema] = []
+    # company: List[EmpresasSchema] = []
 
     class Config:
         orm_mode = True
@@ -76,22 +64,9 @@ class Response(GenericModel, Generic[T]):
     result: Optional[T]
 
 
-######################
-class AuthorBase(BaseModel):
-    id: int
-    name: str
-
-    class Config:
-        orm_mode = True
+class JoinSkill(UsuarioSchema):
+    lenguajes: List[LenguajeSchema]
 
 
-class BookBase(BaseModel):
-    id: int
-    title: str
-
-    class Config:
-        orm_mode = True
-
-
-class BookSchema(BookBase):
-    authors: List[AuthorBase]
+class JoinvacansiesSkill(VacantesSchema):
+    lenguajes: List[LenguajeSchema]

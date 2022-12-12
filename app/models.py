@@ -4,80 +4,66 @@ from config import Base
 from sqlalchemy import Column, Date, DateTime, ForeignKey, Integer, String, Table
 from sqlalchemy.orm import backref, relationship
 
-# class Usuarios(Base):
-#     __tablename__ = "usuarios"
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     skills = relationship("Lenguajes", backref="relation")
-#     firstName = Column(String)
-#     lastName = Column(String)
-#     cel = Column(Integer)
-#     email = Column(String)
-#     yersExp = Column(Integer)
-
-
-# class Vacantes(Base):
-#     __tablename__ = "vacantes"
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     PositionName = Column(String)
-#     CompanyName = Column(String)
-#     Salary = Column(Integer)
-#     Currency = Column(String)
-#     VacancyLink = Column(String)
-#     # skills = relationship("Lenguajes", back_populates="id")
-#     company = relationship("Empresas")
-
-
-# class Empresas(Base):
-#     __tablename__ = "empresas"
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     companyname = Column(String)
-#     vacancies = Column(Integer, ForeignKey("vacantes.id"))
-
-
-# class Lenguajes(Base):
-#     __tablename__ = "Lenguajes"
-
-#     id = Column(Integer, primary_key=True, index=True)
-#     relation = Column(Integer, ForeignKey("usuarios.id"))
-#     # skills = relationship("Usuarios", backref=backref("skills", lazy=True))
-#     lenguaje = Column(String)
-#     time = Column(Integer)
-
-
-class Article(Base):
-    __tablename__ = "articles"
-    id = Column(Integer, primary_key=True)
-    firstName = Column(String)
-    comments = relationship("Comment")
-
-
-class Comment(Base):
-    __tablename__ = "comments"
-    id = Column(Integer, primary_key=True)
-    article_id = Column(Integer, ForeignKey("articles.id"))
-
-
-# Declare Classes / Tables
-book_authors = Table(
-    "book_authors",
+join_skill = Table(
+    "join_skill",
     Base.metadata,
-    Column("book_id", ForeignKey("books.id"), primary_key=True),
-    Column("author_id", ForeignKey("authors.id"), primary_key=True),
+    Column("user_id", ForeignKey("usuarios.id"), primary_key=True),
+    Column("skill_id", ForeignKey("lenguajes.id"), primary_key=True),
+)
+
+join_skill_vacansies = Table(
+    "join_skill_vacansies",
+    Base.metadata,
+    Column("vacansies_id", ForeignKey("vacantes.id"), primary_key=True),
+    Column("skill_id", ForeignKey("lenguajes.id"), primary_key=True),
+)
+
+company_vacansies = Table(
+    "company_vacansies",
+    Base.metadata,
+    Column("company_id", ForeignKey("empresas.id"), primary_key=True),
+    Column("vacansies_id", ForeignKey("vacantes.id"), primary_key=True),
 )
 
 
-class Book(Base):
-    __tablename__ = "books"
+class Usuarios(Base):
+    __tablename__ = "usuarios"
+
     id = Column(Integer, primary_key=True)
-    title = Column(String, nullable=False)
-    authors = relationship("Author", secondary="book_authors", back_populates="books")
+    lenguajes = relationship("Lenguajes", secondary="join_skill", back_populates="usuarios")
+    firstName = Column(String)
+    lastName = Column(String)
+    cel = Column(Integer)
+    email = Column(String)
+    yersExp = Column(Integer)
 
 
-class Author(Base):
-    __tablename__ = "authors"
+class Lenguajes(Base):
+    __tablename__ = "lenguajes"
+
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
-    books = relationship("Book", secondary="book_authors", back_populates="authors")
+    usuarios = relationship("Usuarios", secondary="join_skill", back_populates="lenguajes")
+    vacantes = relationship("Vacantes", secondary="join_skill_vacansies", back_populates="lenguajes")
+    skill = Column(String)
+    time = Column(Integer)
+
+
+class Vacantes(Base):
+    __tablename__ = "vacantes"
+
+    id = Column(Integer, primary_key=True, index=True)
+    lenguajes = relationship("Lenguajes", secondary="join_skill_vacansies", back_populates="vacantes")
+    empresas = relationship("Empresas", secondary="company_vacansies", back_populates="vacantes")
+    positionName = Column(String)
+    companyName = Column(String)
+    salary = Column(Integer)
+    currency = Column(String)
+    vacancyLink = Column(String)
+
+
+class Empresas(Base):
+    __tablename__ = "empresas"
+
+    id = Column(Integer, primary_key=True, index=True)
+    companyname = Column(String)
+    vacantes = relationship("Vacantes", secondary="company_vacansies", back_populates="empresas")

@@ -1,0 +1,367 @@
+{
+	"info": {
+		"_postman_id": "f0731bed-9c72-4287-97a1-86eabbe45a13",
+		"name": "Hunty",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13427802"
+	},
+	"item": [
+		{
+			"name": "listar usuario",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/usuarios",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"usuarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear usuario",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"firstName\": \"soniaaaa\",\r\n        \"lastName\": \"bueno\",\r\n        \"cel\": 5675,\r\n        \"email\": \"sdfg\",\r\n        \"yersExp\": 5,\r\n        \"lenguajes\": [\r\n            {\r\n                \"skill\": \"ajax\",\r\n                \"time\": 1\r\n            },\r\n            {\r\n                \"skill\": \"c++\",\r\n                \"time\": 3\r\n            }\r\n        ]\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/usuarios/create",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"usuarios",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eliminar usuario",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/usuarios/delete",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"usuarios",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editar usuario",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1,\r\n    \"nombre\":\"fredy\",\r\n    \"apellido\":\"aya\",\r\n    \"cel\":123123,\r\n    \"email\":\"jhon@jhon,com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/usuarios/update",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"usuarios",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "listar vacantes",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/vacantes",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vacantes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear vacantes",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"positionName\":\"senior frontend\",\r\n    \"companyName\":\"postobon\",\r\n    \"salary\":5,\r\n    \"currency\":\"COP\",\r\n    \"vacancyLink\":\"https://www.linkedin.com/company/hunty-empresas/\",\r\n    \"lenguajes\": [\r\n        {\r\n            \"skill\": \"html\",\r\n            \"time\": 1\r\n        },\r\n        {\r\n            \"skill\": \"c++\",\r\n            \"time\": 3\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/vacantes/create",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vacantes",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eliminar vacantes",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/vacantes/delete",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vacantes",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editar vacantes",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1,\r\n    \"PositionName\":\"Recluiter\",\r\n    \"CompanyName\":\"hunty\",\r\n    \"Salary\":1000,\r\n    \"Currency\":\"COP\",\r\n    \"VacancyLink\":\"https://www.linkedin.com/company/hunty-empresas/\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/vacantes/update",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"vacantes",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Empresas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/empresas",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"empresas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "crear emrpesa",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/empresas/create",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"empresas",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "editar emrpesas",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":1,\r\n    \"companyname\":\"hunty\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/empresas/update",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"empresas",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "eliminar empresas",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\":3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/empresas/delete",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"empresas",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,22 +1,11 @@
-import json
 from pprint import pprint
-from typing import Generic, List, Optional, TypeVar
 
 import crud
 from config import SessionLocal
+from controller import *
 from fastapi import APIRouter, Depends, HTTPException, Path
-
-# from models import Empresas, User, Usuarios, Vacantes
-from models import Article, Book, Comment
-from schemas import (
-    ArticleSchema,
-    BookSchema,
-    EmpresasSchema,
-    Request,
-    Response,
-    UsuarioSchema,
-    VacantesSchema,
-)
+from models import *
+from schemas import *
 from sqlalchemy.orm import Session, joinedload
 
 router = APIRouter()
@@ -30,115 +19,77 @@ def get_db():
         db.close()
 
 
-# ## SECCION DE USUARIOS
-# @router.post("/usuarios/create")
-# async def create_user_service(request: UsuarioSchema, db: Session = Depends(get_db)):
-#     data = Usuarios(
-#         nombre=request.nombre,
-#         apellido=request.apellido,
-#         cel=request.cel,
-#         email=request.email,
-#     )
-#     crud.createRow(db, data)
-#     return Response(status="Ok", code="200", message="User created successfully").dict(exclude_none=True)
+## SECCION DE USUARIOS
+@router.post("/usuarios/create")
+async def create_user_service(request: UsuarioSchema, db: Session = Depends(get_db)):
+    createUserRelation(request, db)
+    return Response(status="Ok", code="200", message="User created successfully").dict(exclude_none=True)
 
 
-@router.get("/books", response_model=List[BookSchema])
+@router.get("/usuarios", response_model=List[JoinSkill])
 async def get_books(db: Session = Depends(get_db)):
-    db_books = db.query(Book).options(joinedload(Book.authors)).all()
-    return db_books
+    return db.query(Usuarios).options(joinedload(Usuarios.lenguajes)).all()
 
 
-@router.get("/usuarios")
+@router.patch("/usuarios/update")
+async def updateUser(request: UsuarioSchema, db: Session = Depends(get_db)):
+    updateuser = crud.updateUser(db, Usuarios, data=request)
+    return Response(status="Ok", code="200", message="Success update data", result=updateuser)
+
+
+@router.delete("/usuarios/delete")
+async def deleteUser(request: UsuarioSchema, db: Session = Depends(get_db)):
+    crud.removeRow(db, Usuarios, id=request.id)
+    return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
+
+
+## SECCION DE VACANTES
+@router.post("/vacantes/create")
+async def create_user_service(request: JoinvacansiesSkill, db: Session = Depends(get_db)):
+    createVacanciesRelation(request, db)
+    return Response(status="Ok", code="200", message="User created successfully").dict(exclude_none=True)
+
+
+@router.get("/vacantes", response_model=List[JoinvacansiesSkill])
 async def get_users(db: Session = Depends(get_db)):
-    users = crud.getAllRows(db, Article)
-    data = Request(parameter=users)
-    # pprint(data.parameter[0])
+    return db.query(Vacantes).options(joinedload(Vacantes.lenguajes)).all()
 
-    for i in data.parameter:
-        rows = crud.getRelationRows(db, Comment, i.id)
-        data = Request(parameter=rows)
-        pprint(rows)
-        pprint("")
 
-        # print(data.parameter)
-        # r = ["hola", "asdf"]
-        # for x in data.parameter:
-        #     print(data.parameter[x].id)
-        #     # r.append(data.parameter[x].id)
-        # i.relation = r
+@router.patch("/vacantes/update")
+async def updateUser(request: VacantesSchema, db: Session = Depends(get_db)):
+    updateuser = crud.updateVacate(db, Vacantes, data=request)
+    return Response(status="Ok", code="200", message="Success update data", result=updateuser)
 
+
+@router.delete("/vacantes/delete")
+async def deleteUser(request: VacantesSchema, db: Session = Depends(get_db)):
+    print(request.id)
+    crud.removeRow(db, Vacantes, id=request.id)
+    return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
+
+
+## SECCION DE EMPRESAS
+@router.post("/empresas/create")
+async def create_user_service(request: EmpresasSchema, db: Session = Depends(get_db)):
+    data = Empresas(companyname=request.companyname)
+    crud.createRow(db, data)
+    return Response(status="Ok", code="200", message="User created successfully").dict(exclude_none=True)
+
+
+@router.get("/empresas")
+async def get_users(db: Session = Depends(get_db)):
+    users = crud.getAllRows(db, Empresas)
     return Response(status="Ok", code="200", message="Success fetch all data", result=users)
 
 
-# @router.patch("/usuarios/update")
-# async def updateUser(request: UsuarioSchema, db: Session = Depends(get_db)):
-#     updateuser = crud.updateUser(db, Usuarios, data=request)
-#     return Response(status="Ok", code="200", message="Success update data", result=updateuser)
+@router.patch("/empresas/update")
+async def updateUser(request: EmpresasSchema, db: Session = Depends(get_db)):
+    updateuser = crud.updateVacate(db, Empresas, data=request)
+    return Response(status="Ok", code="200", message="Success update data", result=updateuser)
 
 
-# @router.delete("/usuarios/delete")
-# async def deleteUser(request: UsuarioSchema, db: Session = Depends(get_db)):
-#     print(request.id)
-#     crud.removeRow(db, Usuarios, id=request.id)
-#     return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
-
-
-# ## SECCION DE VACANTES
-# @router.post("/vacantes/create")
-# async def create_user_service(request: VacantesSchema, db: Session = Depends(get_db)):
-#     data = Vacantes(
-#         PositionName=request.PositionName,
-#         CompanyName=request.CompanyName,
-#         Salary=request.Salary,
-#         Currency=request.Currency,
-#         VacancyLink=request.VacancyLink,
-#     )
-#     crud.createRow(db, data)
-#     return Response(status="Ok", code="200", message="User created successfully").dict(exclude_none=True)
-
-
-# @router.get("/vacantes")
-# async def get_users(db: Session = Depends(get_db)):
-#     users = crud.getAllRows(db, Vacantes)
-#     return Response(status="Ok", code="200", message="Success fetch all data", result=users)
-
-
-# @router.patch("/vacantes/update")
-# async def updateUser(request: VacantesSchema, db: Session = Depends(get_db)):
-#     updateuser = crud.updateVacate(db, Vacantes, data=request)
-#     return Response(status="Ok", code="200", message="Success update data", result=updateuser)
-
-
-# @router.delete("/vacantes/delete")
-# async def deleteUser(request: VacantesSchema, db: Session = Depends(get_db)):
-#     print(request.id)
-#     crud.removeRow(db, Vacantes, id=request.id)
-#     return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
-
-
-# ## SECCION DE EMPRESAS
-# @router.post("/empresas/create")
-# async def create_user_service(request: EmpresasSchema, db: Session = Depends(get_db)):
-#     data = Empresas(companyname=request.companyname)
-#     crud.createRow(db, data)
-#     return Response(status="Ok", code="200", message="User created successfully").dict(exclude_none=True)
-
-
-# @router.get("/empresas")
-# async def get_users(db: Session = Depends(get_db)):
-#     users = crud.getAllRows(db, Empresas)
-#     return Response(status="Ok", code="200", message="Success fetch all data", result=users)
-
-
-# @router.patch("/empresas/update")
-# async def updateUser(request: EmpresasSchema, db: Session = Depends(get_db)):
-#     updateuser = crud.updateVacate(db, Empresas, data=request)
-#     return Response(status="Ok", code="200", message="Success update data", result=updateuser)
-
-
-# @router.delete("/empresas/delete")
-# async def deleteUser(request: EmpresasSchema, db: Session = Depends(get_db)):
-#     print(request.id)
-#     crud.removeRow(db, Empresas, id=request.id)
-#     return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
+@router.delete("/empresas/delete")
+async def deleteUser(request: EmpresasSchema, db: Session = Depends(get_db)):
+    print(request.id)
+    crud.removeRow(db, Empresas, id=request.id)
+    return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)

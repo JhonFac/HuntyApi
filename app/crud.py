@@ -12,10 +12,10 @@ def getRowsById(db: Session, model, id: int):
     return db.query(model).filter(model.id == id).first()
 
 
-def createRow(db: Session, data):
-    db.add(data)
+def createRow(db, data):
+    print(data)
+    db.add_all(data)
     db.commit()
-    db.refresh(data)
     return data
 
 
