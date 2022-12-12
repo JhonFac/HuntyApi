@@ -4,6 +4,11 @@
 
 OPTIONAL 
 
+## Database Hosted at:
+
+https://railway.app/dashboard
+
+
 ## Build Container and image in Docker 
 docker-compose -f docker-compose.yml build
 
